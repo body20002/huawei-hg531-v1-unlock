@@ -85,7 +85,7 @@ the admin login and the "TR069‑only" lock entirely.
   ([Rezurmas/huawei-mut-unbrick-tool](https://github.com/Rezurmas/huawei-mut-unbrick-tool))
   documents the protocol byte‑by‑byte.
 * Firmware: `HG531V1V100R001C105B011_multicast_packet.bin` (+ its `.ini`), from the
-  Egyptian community (see Credits). The image is flashed to the `kernelfs` partition
+  Egyptian community (see Credits) — **bundled here in [`firmware/`](firmware/)**. The image is flashed to the `kernelfs` partition
   **only** — the bootloader (`CFE`) is deliberately left untouched, so a bad flash is
   recoverable by re‑flashing.
 
@@ -206,13 +206,29 @@ with no IP, because the firmware intercepts external DHCP for un‑relayed clien
 ├── README.md                 # this file
 ├── docs/
 │   └── mut-protocol.md       # MUT packet format, byte-by-byte
+├── firmware/
+│   ├── HG531V1V100R001C105B011_multicast_packet.bin   # the working image
+│   └── HG531V1V100R001C105B011_multicast_packet.ini   # its partition/CRC metadata
 └── tools/
     ├── mut_flash.py          # Linux MUT sender (the flasher)
     └── mut_monitor.py        # tiny ping monitor used to watch the reboot
 ```
 
-The **firmware** is not bundled (it's Huawei's, and large) — grab the matching
-`…_C105B011_multicast_packet.bin` + `.ini` from the community links below.
+### Bundled firmware
+
+`firmware/HG531V1V100R001C105B011_multicast_packet.bin` (+ `.ini`) is the exact image we
+flashed. The `.ini` **must stay next to the `.bin` with the same base name** — it supplies
+`PACKAGE_ID`, `PRODUCT_ID`, `PARTITIONS` and the CRCs. Both are size/CRC‑consistent
+(verified) and come from the Egyptian community packages (see Credits).
+
+```
+sha256  HG531V1V100R001C105B011_multicast_packet.bin  1f770158d9c7ac9c248e40efa3d2a5a1f7bfea91ffc46218801ef373e1358c62
+sha256  HG531V1V100R001C105B011_multicast_packet.ini  ce7220fc8d5a405b84db32235431dc38ae163aba6fbd05778bf4de8c1c5bc5da
+```
+
+> The firmware is Huawei OEM software redistributed by the community for this specific
+> model (`HG531 V1`, `V100R001C105B011`, TE‑Data / WE unlocked build). It is included so
+> the guide is self‑contained. Rights holders: open an issue and it will be removed.
 
 ---
 
